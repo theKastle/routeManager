@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/view_detail_activity"
+    tools:context="com.example.onthe.map.ViewRouteDetailActivity">
+
+    <TextView
+        android:id="@+id/startName"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:text="From: " />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/startName"
+        android:layout_toRightOf="@+id/startName"
+        android:layout_toEndOf="@+id/startName"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="7dp"
+        android:id="@+id/etStartName"/>
+
+    <TextView
+        android:id="@+id/endName"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="7dp"
+        android:text="To: "
+        android:layout_below="@id/startName"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/endName"
+        android:layout_toRightOf="@+id/endName"
+        android:layout_toEndOf="@+id/endName"
+        android:layout_below="@id/etStartName"
+        android:layout_marginRight="7dp"
+        android:id="@+id/etEndName"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter description for this route... "
+        android:maxLength="120"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:id="@+id/etDescription"
+        android:layout_below="@+id/endName"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDescription"
+        android:layout_centerHorizontal="true"
+        android:text="Save"
+        android:id="@+id/save_route_detail"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/save_route_detail"
+        android:layout_centerHorizontal="true"
+        android:text="Share"
+        android:id="@+id/share"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Shared Key ..."
+        android:textAlignment="center"
+        android:id="@+id/shared_key"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:layout_below="@+id/share"/>
+
+</RelativeLayout>
