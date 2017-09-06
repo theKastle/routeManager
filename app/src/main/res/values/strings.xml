@@ -29,4 +29,9 @@
     <string name="action_logout">Logout</string>
     <string name="open">open</string>
     <string name="close">close</string>
+
+    <!--*********************-->
+    <!--Used by PlaceActivity-->
+    <!--*********************-->
+    <string name="places_activity_label">Places</string>
 </resources>

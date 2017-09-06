@@ -43,22 +43,42 @@
         <activity
             android:name=".MapsActivity"
             android:label="Find Route" />
+
+
+        <!-- <activity -->
+        <!-- android:name=".MainActivity" -->
+        <!-- android:label="My Routes"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
         <activity
-            android:name=".MainActivity"
-            android:label="My Routes">
+            android:name=".PlaceActivity"
+            android:label="@string/places_activity_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--Login Activity-->
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".SignupActivity"
-            android:label="Sign up"></activity>
-        <activity android:name=".ViewRouteDetailActivity"
-            android:label="Route Detail"></activity>
+
+        <!--Sign-up Acitivity-->
+        <activity
+            android:name=".SignupActivity"
+            android:label="Sign up" />
+
+        <!--View Route Detail-->
+        <activity
+            android:name=".ViewRouteDetailActivity"
+            android:label="Route Detail" />
+
     </application>
 
 </manifest>
