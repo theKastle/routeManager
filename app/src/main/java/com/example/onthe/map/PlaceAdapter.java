@@ -21,13 +21,19 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     // Fake place data
     private Place[] mPlaceData;
 
+    private final PlaceAdapterOnClickHandler mClickHandler;
+
+    public interface PlaceAdapterOnClickHandler {
+        void onClick(Place aPlace);
+    }
     /**
      * Creates a PlaceAdapter
      *
      * @param context used to inflate layouts and get UI resources.
      */
-    public PlaceAdapter(Context context) {
+    public PlaceAdapter(Context context, PlaceAdapterOnClickHandler clickHandler) {
         mContext = context;
+        mClickHandler = clickHandler;
     }
 
     /**
@@ -84,7 +90,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     /**
      * Cache of the child views for a list item.
      */
-    class PlaceAdapterViewHolder extends RecyclerView.ViewHolder {
+    class PlaceAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView iconImageView;
 
         final TextView nameTextView;
@@ -99,7 +105,15 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
             nameTextView = (TextView) itemView.findViewById(R.id.tv_place_name);
             addressTextView = (TextView) itemView.findViewById(R.id.tv_place_address);
             ratingTextView = (TextView) itemView.findViewById(R.id.tv_rating);
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Place aPlace = mPlaceData[adapterPosition];
+            mClickHandler.onClick(aPlace);
+        }
     }
 }

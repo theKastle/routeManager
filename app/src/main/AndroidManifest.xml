@@ -44,7 +44,6 @@
             android:name=".MapsActivity"
             android:label="Find Route" />
 
-
         <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:label="My Routes"> -->
@@ -54,6 +53,7 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
 
+        <!--Main Activity-->
         <activity
             android:name=".PlaceActivity"
             android:label="@string/places_activity_label">
@@ -64,21 +64,28 @@
             </intent-filter>
         </activity>
 
-        <!--Login Activity-->
+        <!--Detail Activity-->
+        <activity android:name=".PlaceDetailActivity"
+            android:parentActivityName=".PlaceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PlaceActivity"/>
+        </activity>
+
+        <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
 
-        <!--Sign-up Acitivity-->
+        <!-- Sign-up Acitivity -->
         <activity
             android:name=".SignupActivity"
             android:label="Sign up" />
 
-        <!--View Route Detail-->
+        <!-- View Route Detail -->
         <activity
             android:name=".ViewRouteDetailActivity"
             android:label="Route Detail" />
-
     </application>
 
 </manifest>
