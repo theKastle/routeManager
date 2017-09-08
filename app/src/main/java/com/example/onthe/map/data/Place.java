@@ -8,16 +8,18 @@ public class Place {
     private String placeName;
     private String placeAddress;
     private String placePhone;
-    private double placeRating;
-    private String photoUrl;
+    private float placeRating;
+
+    public Place() {
+
+    }
 
     public Place(String name, String address,
-                 String phone, double rating, String photo) {
+                 String phone, float rating) {
         placeName = name;
         placeAddress = address;
         placePhone = phone;
         placeRating = rating;
-        photoUrl = photo;
     }
 
     public String getPlaceName() {
@@ -44,19 +46,11 @@ public class Place {
         this.placePhone = placePhone;
     }
 
-    public double getPlaceRating() {
+    public float getPlaceRating() {
         return placeRating;
     }
 
     public void setPlaceRating(float placeRating) {
         this.placeRating = placeRating;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
     }
 }

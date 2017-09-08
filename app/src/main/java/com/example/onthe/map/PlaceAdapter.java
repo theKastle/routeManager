@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.onthe.map.data.Place;
 
+import java.util.List;
+
 /**
  * Created by phucle on 9/6/17.
  */
@@ -19,7 +21,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     // The context we use to inflate layouts and get UI resources.
     private final Context mContext;
     // Fake place data
-    private Place[] mPlaceData;
+    private List<Place> mPlaceData;
 
     private final PlaceAdapterOnClickHandler mClickHandler;
 
@@ -60,14 +62,15 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     @Override
     public void onBindViewHolder(PlaceAdapterViewHolder holder, int position) {
         // TODO: set data
-        Place aPlace = mPlaceData[position];
+        Place aPlace = mPlaceData.get(position);
         String name = aPlace.getPlaceName();
         String address = aPlace.getPlaceAddress();
-        double rating = aPlace.getPlaceRating();
+        float rating = aPlace.getPlaceRating();
 
         holder.nameTextView.setText(name);
         holder.addressTextView.setText(address);
         holder.ratingTextView.setText(String.valueOf(rating));
+        holder.iconImageView.setImageResource(R.drawable.ic_food);
     }
 
     /**
@@ -79,10 +82,15 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     public int getItemCount() {
         if (mPlaceData == null)
             return 0;
-        return mPlaceData.length;
+        return mPlaceData.size();
     }
 
-    public void setPlaceData(Place[] foodPlace) {
+//    public void setAPlace(Place aPlace) {
+//        mPlaceData.add(aPlace);
+//        notifyDataSetChanged();
+//    }
+
+    public void setPlaceData(List<Place> foodPlace) {
         mPlaceData = foodPlace;
         notifyDataSetChanged();
     }
@@ -112,7 +120,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Place aPlace = mPlaceData[adapterPosition];
+            Place aPlace = mPlaceData.get(adapterPosition);
             mClickHandler.onClick(aPlace);
         }
     }
