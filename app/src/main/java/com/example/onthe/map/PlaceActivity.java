@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 
 import com.example.onthe.map.data.Place;
 import com.example.onthe.map.data.PlaceContract;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PlaceActivity extends AppCompatActivity implements
-        PlaceAdapter.PlaceAdapterOnClickHandler,
+        PlaceAdapter.PlaceAdapterOnClickHandler, OnMapReadyCallback,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -178,5 +180,10 @@ public class PlaceActivity extends AppCompatActivity implements
     private void showLoading() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
