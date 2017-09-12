@@ -22,7 +22,7 @@ public class PlaceDbHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_PLACE_TABLE =
                 "CREATE TABLE " + PlaceContract.PlaceEntry.TABLE_NAME + " (" +
                 PlaceContract.PlaceEntry._ID                + " INTEGER PRIMARY KEY AUTOINCREMENT, "    +
-                PlaceContract.PlaceEntry.COLUMN_PLACE_ID    + " INTEGER NOT NULL, "                     +
+                PlaceContract.PlaceEntry.COLUMN_PLACE_ID    + " VARCHAR(255) NOT NULL, "                     +
                 PlaceContract.PlaceEntry.COLUMN_NAME        + " VARCHAR(255) NOT NULL, "                +
                 PlaceContract.PlaceEntry.COLUMN_ADDRESS     + " VARCHAR(255) NOT NULL,"                 +
                 PlaceContract.PlaceEntry.COLUMN_PHONE       + " VARCHAR(20) NOT NULL,"                  +

@@ -1,6 +1,7 @@
 package com.example.onthe.map;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -13,8 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.onthe.map.data.Place;
 import com.example.onthe.map.data.PlaceContract;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -54,10 +58,13 @@ public class PlaceActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-//        FakeDataUtils.createFakeData(this);
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
-//
-//        mPlaceDataRef = mFirebaseDatabase.getReference().child("places");
+        getContentResolver().delete(PlaceContract.PlaceEntry.CONTENT_URI,
+                null,
+                null);
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+        mPlaceDataRef = mFirebaseDatabase.getReference().child("places");
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_places);
@@ -78,38 +85,45 @@ public class PlaceActivity extends AppCompatActivity implements
 
         getLoaderManager().initLoader(PLACE_LOADER_ID, null, this);
 
-//        if (mChildEventListener == null) {
-//            mChildEventListener = new ChildEventListener() {
-//                @Override
-//                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                    Place newPlace = dataSnapshot.getValue(Place.class);
-////                    Log.d(LOG_TAG, "Key: " + dataSnapshot.getKey() + "\nvalues: " + aPlace.getPlaceName());
-//                    mPlaces.add(newPlace);
-//                    mPlaceAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                }
-//
-//                @Override
-//                public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                }
-//
-//                @Override
-//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            };
-//
-//            mPlaceDataRef.addChildEventListener(mChildEventListener);
-//        }
+        if (mChildEventListener == null) {
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    ContentValues placeValue = new ContentValues();
+                    Place newPlace = dataSnapshot.getValue(Place.class);
+                    placeValue.put(PlaceContract.PlaceEntry.COLUMN_PLACE_ID, dataSnapshot.getKey());
+                    placeValue.put(PlaceContract.PlaceEntry.COLUMN_NAME, newPlace.getPlaceName());
+                    placeValue.put(PlaceContract.PlaceEntry.COLUMN_ADDRESS, newPlace.getPlaceAddress());
+                    placeValue.put(PlaceContract.PlaceEntry.COLUMN_PHONE, newPlace.getPlacePhone());
+                    placeValue.put(PlaceContract.PlaceEntry.COLUMN_RATING, newPlace.getPlaceRating());
+
+                    getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, placeValue);
+
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+
+            mPlaceDataRef.addChildEventListener(mChildEventListener);
+        }
     }
 
     @Override
@@ -149,7 +163,7 @@ public class PlaceActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onClick(int placeId) {
+    public void onClick(String placeId) {
         Intent intentStartDetailActivity = new Intent(this, PlaceDetailActivity.class);
         Uri uriIdClicked = PlaceContract.PlaceEntry.buildUriWithId(placeId);
         intentStartDetailActivity.setData(uriIdClicked);

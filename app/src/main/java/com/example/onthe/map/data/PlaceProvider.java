@@ -1,6 +1,7 @@
 package com.example.onthe.map.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -8,12 +9,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by phucle on 9/8/17.
  */
 
 public class PlaceProvider extends ContentProvider {
+
+    private static final String LOG_TAG = PlaceProvider.class.getSimpleName();
+
     public static final int CODE_PLACE = 2600;
     public static final int CODE_PLACE_ID = 2700;
 
@@ -25,7 +30,7 @@ public class PlaceProvider extends ContentProvider {
         final String authority = PlaceContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, PlaceContract.PATH_PLACE_ID, CODE_PLACE);
-        matcher.addURI(authority, PlaceContract.PATH_PLACE_ID + "/#", CODE_PLACE_ID);
+        matcher.addURI(authority, PlaceContract.PATH_PLACE_ID + "/*", CODE_PLACE_ID);
 
         return matcher;
     }
@@ -127,7 +132,29 @@ public class PlaceProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        throw new RuntimeException("Don't need to implement this method.");
+        switch (mUriMatcher.match(uri)) {
+            case CODE_PLACE:
+                String placeId = values.getAsString(PlaceContract.PlaceEntry.COLUMN_PLACE_ID);
+                String name = values.getAsString(PlaceContract.PlaceEntry.COLUMN_NAME);
+                String address = values.getAsString(PlaceContract.PlaceEntry.COLUMN_ADDRESS);
+                String phone = values.getAsString(PlaceContract.PlaceEntry.COLUMN_PHONE);
+                float rating = values.getAsFloat(PlaceContract.PlaceEntry.COLUMN_RATING);
+
+                final SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+                long id = database.insert(PlaceContract.PlaceEntry.TABLE_NAME, null, values);
+
+                if (id == -1) {
+                    Log.d(LOG_TAG, "Failed to insert row for " + uri);
+                    return null;
+                }
+
+                getContext().getContentResolver().notifyChange(uri, null);
+
+                return ContentUris.withAppendedId(uri, id);
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
     }
 
     @Override

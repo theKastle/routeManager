@@ -78,12 +78,13 @@ public class PlaceDetailActivity extends AppCompatActivity
             return;
         }
 
-        int placeId = data.getInt(INDEX_PLACE_ID);
+        String placeId = data.getString(INDEX_PLACE_ID);
         String name = data.getString(INDEX_NAME);
         String address = data.getString(INDEX_ADDRESS);
         String phone = data.getString(INDEX_PHONE);
+        String rating = data.getString(INDEX_RATING);
 
-        mPlaceDisplayInfo.setText(name + " - " + address + " - " + phone + " - " + placeId);
+        mPlaceDisplayInfo.setText(name + " - " + address + " - " + phone + " - " + placeId + " - " + rating);
         Log.d(PlaceDetailActivity.class.getSimpleName(), mPlaceDisplayInfo.getText().toString());
     }
 

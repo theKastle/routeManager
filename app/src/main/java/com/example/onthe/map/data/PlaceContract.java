@@ -27,9 +27,9 @@ public class PlaceContract {
         public static final String COLUMN_PHONE = "phone";
         public static final String COLUMN_RATING = "rating";
 
-        public static Uri buildUriWithId(int placeId) {
+        public static Uri buildUriWithId(String placeId) {
             return CONTENT_URI.buildUpon()
-                    .appendPath(Integer.toString(placeId))
+                    .appendPath(placeId)
                     .build();
         }
     }

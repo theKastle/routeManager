@@ -68,7 +68,8 @@
 
         <!--Detail Activity-->
         <activity android:name=".PlaceDetailActivity"
-            android:parentActivityName=".PlaceActivity">
+            android:parentActivityName=".PlaceActivity"
+            android:label="Detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PlaceActivity"/>

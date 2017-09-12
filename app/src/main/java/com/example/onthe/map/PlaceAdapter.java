@@ -25,7 +25,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     private Cursor mCursor;
 
     public interface PlaceAdapterOnClickHandler {
-        void onClick(int placeId);
+        void onClick(String placeId);
     }
     /**
      * Creates a PlaceAdapter
@@ -116,7 +116,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            int placeId = mCursor.getInt(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID));
+            String placeId = mCursor.getString(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID));
             mClickHandler.onClick(placeId);
         }
     }
