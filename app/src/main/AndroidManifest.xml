@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -86,6 +88,11 @@
         <activity
             android:name=".ViewRouteDetailActivity"
             android:label="Route Detail" />
-    </application>
 
+        <!--Content Provider for PlaceContract-->
+        <provider
+            android:authorities="com.example.onthe.map"
+            android:name=".data.PlaceProvider"
+            android:exported="false"/>
+    </application>
 </manifest>

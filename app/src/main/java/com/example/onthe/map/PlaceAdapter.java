@@ -1,6 +1,7 @@
 package com.example.onthe.map;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.onthe.map.data.Place;
-
-import java.util.List;
+import com.example.onthe.map.data.PlaceContract;
 
 /**
  * Created by phucle on 9/6/17.
@@ -20,13 +19,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
 
     // The context we use to inflate layouts and get UI resources.
     private final Context mContext;
-    // Fake place data
-    private List<Place> mPlaceData;
 
     private final PlaceAdapterOnClickHandler mClickHandler;
 
+    private Cursor mCursor;
+
     public interface PlaceAdapterOnClickHandler {
-        void onClick(Place aPlace);
+        void onClick(int placeId);
     }
     /**
      * Creates a PlaceAdapter
@@ -49,6 +48,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
     public PlaceAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = R.layout.places_list_item;
         View view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
+        view.setFocusable(true);
         return new PlaceAdapterViewHolder(view);
     }
 
@@ -61,11 +61,11 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
      */
     @Override
     public void onBindViewHolder(PlaceAdapterViewHolder holder, int position) {
-        // TODO: set data
-        Place aPlace = mPlaceData.get(position);
-        String name = aPlace.getPlaceName();
-        String address = aPlace.getPlaceAddress();
-        float rating = aPlace.getPlaceRating();
+        mCursor.moveToPosition(position);
+
+        String name = mCursor.getString(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_NAME));
+        String address = mCursor.getString(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_ADDRESS));
+        float rating = mCursor.getFloat(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_RATING));
 
         holder.nameTextView.setText(name);
         holder.addressTextView.setText(address);
@@ -80,18 +80,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
      */
     @Override
     public int getItemCount() {
-        if (mPlaceData == null)
+        if (mCursor == null)
             return 0;
-        return mPlaceData.size();
+        return mCursor.getCount();
     }
 
-//    public void setAPlace(Place aPlace) {
-//        mPlaceData.add(aPlace);
-//        notifyDataSetChanged();
-//    }
-
-    public void setPlaceData(List<Place> foodPlace) {
-        mPlaceData = foodPlace;
+    void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
         notifyDataSetChanged();
     }
 
@@ -120,8 +115,9 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Place aPlace = mPlaceData.get(adapterPosition);
-            mClickHandler.onClick(aPlace);
+            mCursor.moveToPosition(adapterPosition);
+            int placeId = mCursor.getInt(mCursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID));
+            mClickHandler.onClick(placeId);
         }
     }
 }
