@@ -3,6 +3,7 @@ package com.example.onthe.map;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,8 +11,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +61,8 @@ public class PlaceDetailActivity extends AppCompatActivity
     private TextView mPlacePhone;
     private TextView mPlaceAddress;
 
+    private String mPlaceSummary;
+
     private Uri mUri;
 
 
@@ -75,7 +81,7 @@ public class PlaceDetailActivity extends AppCompatActivity
 
         mPlaceName = (TextView) findViewById(R.id.tv_place_name);
         mPlacePhone = (TextView) findViewById(R.id.tv_phone);
-        mPlaceAddress = (TextView) findViewById(R.id.tv_adress);
+        mPlaceAddress = (TextView) findViewById(R.id.tv_address);
 
         mUri = getIntent().getData();
 
@@ -145,6 +151,10 @@ public class PlaceDetailActivity extends AppCompatActivity
         String phone = data.getString(INDEX_PHONE);
 
         String rating = data.getString(INDEX_RATING);
+
+        mPlaceSummary = name + "\n"
+                + address + "\n"
+                + phone;
 
         sendRequest(address);
 
@@ -240,5 +250,33 @@ public class PlaceDetailActivity extends AppCompatActivity
                         latLng.getLongitude());
 
         return  mapsLatLng;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_share:
+                Intent shareIntent = createShareIntent();
+                startActivity(shareIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText(mPlaceSummary)
+                .getIntent();
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        return shareIntent;
     }
 }

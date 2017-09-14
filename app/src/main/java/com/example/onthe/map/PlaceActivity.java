@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.onthe.map.data.Place;
@@ -70,7 +69,6 @@ public class PlaceActivity extends AppCompatActivity implements
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_places);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false);
@@ -82,8 +80,6 @@ public class PlaceActivity extends AppCompatActivity implements
         mPlaceAdapter = new PlaceAdapter(this, this);
 
         mRecyclerView.setAdapter(mPlaceAdapter);
-
-        showLoading();
 
         getLoaderManager().initLoader(PLACE_LOADER_ID, null, this);
 
@@ -153,10 +149,6 @@ public class PlaceActivity extends AppCompatActivity implements
         if (mPosition == RecyclerView.NO_POSITION)
             mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);
-
-        if (data != null) {
-            showPlaceData();
-        }
     }
 
     @Override
@@ -170,16 +162,6 @@ public class PlaceActivity extends AppCompatActivity implements
         Uri uriIdClicked = PlaceContract.PlaceEntry.buildUriWithId(placeId);
         intentStartDetailActivity.setData(uriIdClicked);
         startActivity(intentStartDetailActivity);
-    }
-
-    private void showPlaceData() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-    }
-
-    private void showLoading() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     @Override

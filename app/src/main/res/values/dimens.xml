@@ -3,6 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="extra_detail_vertical_padding">16dp</dimen>
+    <dimen name="extra_detail_horizontal_padding">32dp</dimen>
+
     <!--Icon size-->
     <dimen name="list_icon">40dp</dimen>
 
