@@ -8,6 +8,7 @@
 
     <!--Icon size-->
     <dimen name="list_icon">40dp</dimen>
+    <dimen name="extra_icon_detail">50dp</dimen>
 
     <dimen name="rating_spacing">4dp</dimen>
     <dimen name="rating_text_size">28dp</dimen>

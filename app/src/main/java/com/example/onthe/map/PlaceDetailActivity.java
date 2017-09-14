@@ -79,9 +79,9 @@ public class PlaceDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_detail);
 
-        mPlaceName = (TextView) findViewById(R.id.tv_place_name);
-        mPlacePhone = (TextView) findViewById(R.id.tv_phone);
-        mPlaceAddress = (TextView) findViewById(R.id.tv_address);
+        mPlaceName = (TextView) findViewById(R.id.place_text_view_detail);
+        mPlacePhone = (TextView) findViewById(R.id.phone_text_view_detail);
+        mPlaceAddress = (TextView) findViewById(R.id.address_text_view_detail);
 
         mUri = getIntent().getData();
 
@@ -184,7 +184,7 @@ public class PlaceDetailActivity extends AppCompatActivity
     @Override
     public void onDirectionFinderStart() {
         progressDialog = ProgressDialog.show(this, "Please wait.",
-                "Finding direction..!", true);
+                "Finding direction!", true);
 
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
