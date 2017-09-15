@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.onthe.map.MapUtils.DirectionFinder;
 import com.example.onthe.map.MapUtils.DirectionFinderListener;
@@ -100,15 +99,14 @@ public class PlaceDetailActivity extends AppCompatActivity
 
     private void sendRequest(String address) {
         String origin = "Khoa hoc tu nhien Nguyen Van Cu";
-        if (origin.isEmpty()) {
-            Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.d(PlaceDetailActivity.class.getSimpleName(), address);
-        if (address.isEmpty()) {
-            Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (origin.isEmpty()) {
+//            Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if (address.isEmpty()) {
+//            Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         try {
             new DirectionFinder(this, origin, address).execute();
@@ -183,8 +181,16 @@ public class PlaceDetailActivity extends AppCompatActivity
 
     @Override
     public void onDirectionFinderStart() {
-        progressDialog = ProgressDialog.show(this, "Please wait.",
-                "Finding direction!", true);
+//        progressDialog = ProgressDialog.show(this, "Please wait.",
+//                "Finding direction!", true);
+
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Please wait.");
+            progressDialog.setMessage("Finding direction!");
+            progressDialog.setIndeterminate(true);
+        }
+        progressDialog.show();
 
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
@@ -207,7 +213,9 @@ public class PlaceDetailActivity extends AppCompatActivity
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
-        progressDialog.dismiss();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
 
         drawRoutes(routes);
         this.myRoutes = routes;
@@ -278,5 +286,13 @@ public class PlaceDetailActivity extends AppCompatActivity
                 .getIntent();
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         return shareIntent;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }
