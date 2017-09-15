@@ -19,8 +19,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -55,7 +54,8 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
 
-        <!--Main Activity-->
+
+        <!-- Main Activity -->
         <activity
             android:name=".PlaceActivity"
             android:label="@string/places_activity_label">
@@ -66,13 +66,14 @@
             </intent-filter>
         </activity>
 
-        <!--Detail Activity-->
-        <activity android:name=".PlaceDetailActivity"
-            android:parentActivityName=".PlaceActivity"
-            android:label="Detail">
+        <!-- Detail Activity -->
+        <activity
+            android:name=".PlaceDetailActivity"
+            android:label="Detail"
+            android:parentActivityName=".PlaceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlaceActivity"/>
+                android:value=".PlaceActivity" />
         </activity>
 
         <!-- Login Activity -->
@@ -90,10 +91,12 @@
             android:name=".ViewRouteDetailActivity"
             android:label="Route Detail" />
 
-        <!--Content Provider for PlaceContract-->
+        <!-- Content Provider for PlaceContract -->
         <provider
-            android:authorities="com.example.onthe.map"
             android:name=".data.PlaceProvider"
-            android:exported="false"/>
+            android:authorities="com.example.onthe.map"
+            android:exported="false" />
+
     </application>
+
 </manifest>

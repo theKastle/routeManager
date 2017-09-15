@@ -13,10 +13,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.onthe.map.MapUtils.DirectionFinder;
@@ -60,6 +60,7 @@ public class PlaceDetailActivity extends AppCompatActivity
     private TextView mPlaceName;
     private TextView mPlacePhone;
     private TextView mPlaceAddress;
+    private RatingBar mRatingBar;
 
     private String mPlaceSummary;
 
@@ -82,6 +83,7 @@ public class PlaceDetailActivity extends AppCompatActivity
         mPlaceName = (TextView) findViewById(R.id.place_text_view_detail);
         mPlacePhone = (TextView) findViewById(R.id.phone_text_view_detail);
         mPlaceAddress = (TextView) findViewById(R.id.address_text_view_detail);
+        mRatingBar = (RatingBar) findViewById(R.id.rating_bar);
 
         mUri = getIntent().getData();
 
@@ -157,20 +159,19 @@ public class PlaceDetailActivity extends AppCompatActivity
         String placeId = data.getString(INDEX_PLACE_ID);
         String name = data.getString(INDEX_NAME);
         String address = data.getString(INDEX_ADDRESS);
-        Log.d(PlaceDetailActivity.class.getSimpleName(), address);
         String phone = data.getString(INDEX_PHONE);
-
-        String rating = data.getString(INDEX_RATING);
-
-        mPlaceSummary = name + "\n"
-                + address + "\n"
-                + phone;
+        float rating = data.getFloat(INDEX_RATING);
 
         sendRequest(address);
 
         mPlaceAddress.setText(address);
         mPlacePhone.setText(phone);
         mPlaceName.setText(name);
+        mRatingBar.setRating(rating);
+
+        mPlaceSummary = name + " - "
+                + "Address: " + address + " - "
+                +  "tel: " + phone;
     }
 
     @Override
