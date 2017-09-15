@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.onthe.map.MapUtils.DirectionFinder;
@@ -93,6 +94,17 @@ public class PlaceDetailActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mPlacePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startCallIntent = new Intent(Intent.ACTION_DIAL);
+                startCallIntent.setData(Uri.parse("tel:" + mPlacePhone.getText().toString()));
+                if (startCallIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(startCallIntent);
+                }
+            }
+        });
 
 
     }
