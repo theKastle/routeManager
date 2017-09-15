@@ -90,6 +90,10 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceAdapter
         notifyDataSetChanged();
     }
 
+    Cursor cachedCursor() {
+        return mCursor;
+    }
+
     /**
      * Cache of the child views for a list item.
      */

@@ -9,9 +9,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
@@ -62,7 +64,7 @@ public class PlaceActivity extends AppCompatActivity implements
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private String mUsername;
+    private Cursor cachedData;
 
     private PlaceAdapter mPlaceAdapter;
     private RecyclerView mRecyclerView;
@@ -73,8 +75,6 @@ public class PlaceActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
-
-        mUsername = ANONYMOUS;
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -164,6 +164,49 @@ public class PlaceActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.place, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+//                Toast.makeText(PlaceActivity.this, "Open", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                Toast.makeText(PlaceActivity.this, "Close", Toast.LENGTH_SHORT).show();
+                mPlaceAdapter.swapCursor(cachedData);
+                return true;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Perform the final search
+                Uri placeUri = PlaceContract.PlaceEntry.CONTENT_URI;
+                String selections = PlaceContract.PlaceEntry.COLUMN_NAME + " LIKE ?";
+                String[] selectionArgs = new String[]{"%" + query + "%"};
+                Cursor searchData = getContentResolver().query(placeUri,
+                        PLACE_PROJECTION,
+                        selections,
+                        selectionArgs,
+                        null);
+
+                cachedData = mPlaceAdapter.cachedCursor();
+                mPlaceAdapter.swapCursor(searchData);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Text has changed, apply filtering?
+                return false;
+            }
+        });
+
         return true;
     }
 

@@ -171,7 +171,7 @@ public class PlaceDetailActivity extends AppCompatActivity
 
         mPlaceSummary = name + " - "
                 + "Address: " + address + " - "
-                +  "tel: " + phone;
+                +  "Tel: " + phone;
     }
 
     @Override
