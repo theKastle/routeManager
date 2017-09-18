@@ -203,7 +203,18 @@ public class PlaceActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Text has changed, apply filtering?
-                return false;
+                Uri placeUri = PlaceContract.PlaceEntry.CONTENT_URI;
+                String selections = PlaceContract.PlaceEntry.COLUMN_NAME + " LIKE ?";
+                String[] selectionArgs = new String[]{"%" + newText + "%"};
+                Cursor searchData = getContentResolver().query(placeUri,
+                        PLACE_PROJECTION,
+                        selections,
+                        selectionArgs,
+                        null);
+
+                cachedData = mPlaceAdapter.cachedCursor();
+                mPlaceAdapter.swapCursor(searchData);
+                return true;
             }
         });
 
